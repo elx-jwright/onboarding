@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS orders(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    transaction VARCHAR(36) NOT NULL UNIQUE,
+    ticker VARCHAR(5) NOT NULL,
+    order_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    quantity INT NOT NULL,
+    price NUMERIC(6,2) NOT NULL,
+    direction ENUM('BUY', 'SELL')
+);
