@@ -1,0 +1,67 @@
+syntax = "proto3";
+option java_package = "com.elyxor.onboarding";
+package onboarding;
+
+// The OrderService defines the gRPC methods based on the OrderController.
+service OrderService {
+  // Retrieve all orders.
+  rpc GetOrders (Empty) returns (OrderList);
+
+  // Retrieve orders by ticker.
+  rpc GetOrdersByTicker (TickerRequest) returns (OrderList);
+
+  // Retrieve a single order by transaction ID.
+  rpc GetOrder (TransactionRequest) returns (Order);
+
+  // Create a single order.
+  rpc CreateOrder (Order) returns (Order);
+
+  // Create multiple orders.
+  rpc CreateOrders (OrderList) returns (OrderList);
+
+  // Update an existing order by ID.
+  rpc UpdateOrder (UpdateOrderRequest) returns (Order);
+
+  // Delete an order by ID.
+  rpc DeleteOrder (DeleteOrderRequest) returns (Empty);
+}
+
+// Represents an individual order.
+message Order {
+  int64 id = 1;                 // Unique ID of the order.
+  string ticker = 2;            // Ticker symbol of the order.
+  string transaction = 3;       // Unique transaction ID.
+  string orderTime = 4;         // Time of the order in ISO 8601 format.
+  int32 quantity = 5;           // Quantity of items in the order.
+  float price = 6;              // Price of the order.
+  string direction = 7;         // Direction of the order (e.g., BUY, SELL).
+}
+
+// Represents a list of orders.
+message OrderList {
+  repeated Order orders = 1;
+}
+
+// Request to get orders by ticker.
+message TickerRequest {
+  string ticker = 1;  // The ticker symbol to filter orders.
+}
+
+// Request to get an order by transaction ID.
+message TransactionRequest {
+  string transaction = 1;  // The unique transaction ID.
+}
+
+// Request to update an order.
+message UpdateOrderRequest {
+  int64 id = 1;       // The ID of the order to be updated.
+  Order order = 2;    // The new data for the order.
+}
+
+// Request to delete an order by ID.
+message DeleteOrderRequest {
+  int64 id = 1;  // The ID of the order to be deleted.
+}
+
+// An empty message used for requests or responses without additional information.
+message Empty {}
